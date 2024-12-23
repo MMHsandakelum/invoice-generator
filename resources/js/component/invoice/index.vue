@@ -1,3 +1,28 @@
+<script setup>
+import axios from "axios";
+import { onMounted, ref } from "vue";
+
+let invoices = ref([]);
+let searchInvoice = ref([]);
+
+onMounted(async () => {
+    getInvoices();
+});
+
+const getInvoices = async () => {
+    let response = await axios.get("/api/get_all_invoice");
+    console.log("response :", response);
+    invoices.value = response.data.invoices;
+};
+
+const search = async () => {
+    let response = await axios.get(
+        "/api/search_invoice?s=" + searchInvoice.value
+    );
+    // console.log("response", response);
+    invoices.value = response.data.invoices;
+};
+</script>
 <template>
     <div class="container">
         <div class="invoices">
@@ -43,6 +68,8 @@
                             class="table--search--input"
                             type="text"
                             placeholder="Search invoice"
+                            v-model="searchInvoice"
+                            @keyup="search()"
                         />
                     </div>
                 </div>
@@ -57,13 +84,24 @@
                 </div>
 
                 <!-- item 1 -->
-                <div class="table--items">
-                    <a href="#" class="table--items--transactionId">#093654</a>
-                    <p>Jan 18, 9:31am</p>
-                    <p>#093654</p>
-                    <p>Jonathan Yu</p>
-                    <p>Jan 18, 9:31am</p>
-                    <p>$ 16,943</p>
+                <div
+                    class="table--items"
+                    v-for="item in invoices"
+                    :key="item.id"
+                    v-if="invoices.length > 0"
+                >
+                    <a href="#" class="table--items--transactionId"
+                        >#{{ item.id }}</a
+                    >
+                    <p>{{ item.date }}</p>
+                    <p>#{{ item.number }}</p>
+                    <p v-if="item.customer">{{ item.customer.first_name }}</p>
+                    <p v-else></p>
+                    <p>{{ item.due_date }}</p>
+                    <p>Rs {{ item.total }}</p>
+                </div>
+                <div class="table--items" v-else>
+                    <p>Invoices Not Found</p>
                 </div>
             </div>
         </div>

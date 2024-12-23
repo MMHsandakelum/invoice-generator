@@ -197,7 +197,7 @@ ul {
 
 .table--items {
     padding: 10px 30px !important;
-    gap: 10px;
+    gap: 20px;
     display: -ms-grid;
     display: grid;
     -ms-grid-columns: (minmax(100px, 1fr))[auto-fit];
