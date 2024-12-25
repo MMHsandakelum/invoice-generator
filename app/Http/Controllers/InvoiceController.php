@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Counter;
 use App\Models\Invoice;
 use Illuminate\Http\Request;
 
@@ -30,5 +31,39 @@ class InvoiceController extends Controller
             return $this->get_all_invoice();
         }
        
+    }
+
+    public function new_invoice(Request $request){
+
+        $counter = Counter::where('key', 'invoice')->first();
+
+        $invoice = Invoice::orderBy('id', 'DESC')->first();
+
+        if($invoice){
+            $invoice = $invoice->id;
+            $counters = $counter->value + $invoice;
+        }else {
+            $counters = $counter->value;
+        }
+
+        $formData = [
+            'number' => $counter->prefix.$counters,
+            'customer_id' => null,
+            'customer' => null,
+            'date' => date('Y-m-d'),
+            'due_date' => null,
+            'reference' => null,
+            'discount' => 0,
+            'term_and_condition' => 'Default Terms And Condtions',
+            'items' => [[
+                'product_id' => null,
+                'product' => null,
+                'unit_price' => 0,
+                'quantity' => 1
+            ]]
+        ];
+
+        return response()->json($formData);
+        // return "success";
     }
 }
