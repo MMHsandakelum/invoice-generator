@@ -31,6 +31,10 @@ const newInvoice = async () => {
     console.log("form data :", response);
     router.push("/invoice/new");
 };
+
+const showInvoice = (id) => {
+    router.push("/invoice/show/" + id);
+};
 </script>
 <template>
     <div class="container">
@@ -104,7 +108,10 @@ const newInvoice = async () => {
                         :key="item.id"
                         v-if="invoices.length > 0"
                     >
-                        <a href="#" class="table--items--transactionId"
+                        <a
+                            href=""
+                            class="table--items--transactionId"
+                            @click="showInvoice(item.id)"
                             >#{{ item.id }}</a
                         >
                         <p>{{ item.date }}</p>

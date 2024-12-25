@@ -450,7 +450,7 @@ ul {
     background-color: #fca120;
     display: grid;
     grid-template-columns: 65% 1fr 1fr;
-    margin-top: 80px;
+    margin-top: 0px;
 }
 
 .invoice__header--title-1 {
@@ -460,7 +460,7 @@ ul {
     background-color: white;
     text-align: center;
     font-size: 36px;
-    padding-left: 45px;
+    padding-left: 4px;
     padding-right: 45px;
 }
 
@@ -504,7 +504,7 @@ ul {
 
 .table--heading3 {
     display: grid;
-    grid-template-columns: 25px 500px 1fr 1fr 1fr;
+    grid-template-columns: 25px 350px 5fr 4fr 4fr;
     grid-gap: 10px;
     padding: 10px 30px !important;
     font-weight: 900;
@@ -520,7 +520,7 @@ ul {
 
 .table--items3 {
     display: grid;
-    grid-template-columns: 25px 500px 1fr 1fr 1fr;
+    grid-template-columns: 25px 350px 5fr 4fr 4fr;
     grid-gap: 10px;
     align-items: center;
     border-bottom: 1px solid #e0e0e0;
@@ -537,7 +537,7 @@ ul {
 .invoice__subtotal {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-gap: 200px;
+    grid-gap: 10px;
     padding-top: 10px;
     padding-left: 40px;
     padding-right: 40px;
@@ -545,7 +545,8 @@ ul {
 
 .invoice__subtotal--item1 {
     display: flex;
-    justify-content: space-between;
+    /* justify-content: space-between; */
+    gap: 100px;
     align-items: center;
     margin-top: 30px;
     margin-bottom: 20px;
@@ -553,7 +554,6 @@ ul {
 
 .invoice__subtotal--item1 p {
     font-size: 20px;
-    padding-left: 55px;
 }
 
 .invoice__subtotal--item1 span {
@@ -562,14 +562,14 @@ ul {
 
 .invoice__subtotal--item2 {
     display: flex;
-    justify-content: space-between;
+    /* justify-content: space-between; */
+    gap: 100px;
     align-items: center;
     margin-bottom: 10px;
 }
 
 .invoice__subtotal--item2 p {
     font-size: 20px;
-    padding-left: 55px;
 }
 
 .invoice__subtotal--item2 span {
@@ -578,27 +578,25 @@ ul {
 
 .invoice__total {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-gap: 150px;
+    grid-template-columns: 1fr 2fr;
+    grid-gap: 100px;
     padding: 25px;
 }
 
 .grand__total {
-    margin-top: 50px;
+    margin-top: 40px;
     background-color: #fca120;
     color: black;
 }
 
 .grand__total--items {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
     margin-bottom: 20px;
     margin-top: 15px;
     padding-top: 15px;
     padding-bottom: 15px;
-    padding-left: 0.5in;
-    padding-right: 0.5in;
     font-size: 26px;
 }
 

@@ -1,6 +1,7 @@
 <script setup>
 import axios from "axios";
 import { onMounted, ref } from "vue";
+import router from "../../router";
 
 let form = ref([]);
 let allCustomers = ref([]);
@@ -64,14 +65,38 @@ const getTotal = () => {
     return total;
 };
 
-const Total = (d) => {
+const Total = () => {
     let grand_total = 0;
-    grand_total = getTotal() - d;
+    grand_total = getTotal() - form.value.discount;
     return grand_total;
 };
 
 const removeProduct = (i) => {
     listCart.value.splice(i, 1);
+};
+
+const onSave = () => {
+    let sub_total = 0;
+    sub_total = getTotal();
+
+    let total = 0;
+    total = Total();
+
+    const formData = new FormData();
+    formData.append("invoice_item", JSON.stringify(listCart.value));
+    formData.append("customer_id", customer_id.value);
+    formData.append("date", form.value.date);
+    formData.append("due_date", form.value.due_date);
+    formData.append("number", form.value.number);
+    formData.append("reference", form.value.reference);
+    formData.append("term_and_condition", form.value.term_and_condition);
+    formData.append("discount", form.value.discount);
+    formData.append("sub_total", sub_total);
+    formData.append("total", total);
+
+    axios.post("/api/add_invoice", formData);
+    listCart.value = [];
+    router.push("/");
 };
 </script>
 <template>
@@ -94,6 +119,7 @@ const removeProduct = (i) => {
                                 id=""
                                 class="input"
                                 v-model="customer_id"
+                                required
                             >
                                 <option disabled>Select Your Customer</option>
                                 <option
@@ -113,6 +139,7 @@ const removeProduct = (i) => {
                                 type="date"
                                 class="input"
                                 v-model="form.date"
+                                required
                             />
                             <!---->
                             <p class="my-1">Due Date</p>
@@ -219,7 +246,7 @@ const removeProduct = (i) => {
                             </div>
                             <div class="table__footer--total">
                                 <p>Grand Total</p>
-                                <span>Rs {{ Total(form.discount) }}</span>
+                                <span>Rs {{ Total() }}</span>
                             </div>
                         </div>
                     </div>
@@ -227,7 +254,13 @@ const removeProduct = (i) => {
                 <div class="card__header" style="margin-top: 40px">
                     <div></div>
                     <div>
-                        <a class="btn btn-secondary"> Save </a>
+                        <button
+                            type="submit"
+                            class="btn btn-secondary"
+                            @click="onSave()"
+                        >
+                            Save
+                        </button>
                     </div>
                 </div>
             </div>
