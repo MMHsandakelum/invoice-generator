@@ -14,4 +14,19 @@ class CustomerController extends Controller
             'customers' => $customers
         ], 200);
     }
+
+    public function add_customer(Request $request){
+
+        $customer['first_name'] = $request->first_name;
+        $customer['last_name'] = $request->last_name;
+        $customer['email'] = $request->email;
+        $customer['address'] = $request->address;
+        $customer['phone'] = $request->phone;
+
+        Customer::create($customer);
+
+        return response()->json([
+            "message" => "successfully added"
+        ]);
+    }
 }

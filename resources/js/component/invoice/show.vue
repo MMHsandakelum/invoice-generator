@@ -31,11 +31,10 @@ const print = () => {
         <div class="invoices">
             <div class="card__header">
                 <div>
-                    <h2 class="invoice__title">Invoice</h2>
+                    <h2 class="invoice__title no-print">Invoice</h2>
                 </div>
-                <div></div>
             </div>
-            <div>
+            <div class="no-print">
                 <div class="card__header--title">
                     <h1 class="mr-2">#{{ form.id }}</h1>
                     <p>{{ form.created_at }}</p>
@@ -45,7 +44,10 @@ const print = () => {
                     <ul class="card__header-list">
                         <li>
                             <!-- Select Btn Option -->
-                            <button class="selectBtnFlat" @click="print()">
+                            <button
+                                class="selectBtnFlat btn btn-primary no-print"
+                                @click="print()"
+                            >
                                 <i class="fas fa-print"></i>
                                 Print
                             </button>
@@ -53,7 +55,7 @@ const print = () => {
                         </li>
                         <li>
                             <!-- Select Btn Option -->
-                            <button class="selectBtnFlat">
+                            <button class="selectBtnFlat btn btn-success">
                                 <i class="fas fa-reply"></i>
                                 Edit
                             </button>
@@ -61,7 +63,7 @@ const print = () => {
                         </li>
                         <li>
                             <!-- Select Btn Option -->
-                            <button class="selectBtnFlat">
+                            <button class="selectBtnFlat btn btn-danger">
                                 <i class="fas fa-pencil-alt"></i>
                                 Delete
                             </button>
@@ -83,6 +85,15 @@ const print = () => {
                         <h2>Invoice To:</h2>
                         <p v-if="form.customer">
                             {{ form.customer.first_name }}
+                        </p>
+                        <p v-if="form.customer">
+                            {{ form.customer.phone }}
+                        </p>
+                        <p v-if="form.customer">
+                            {{ form.customer.email }}
+                        </p>
+                        <p v-if="form.customer">
+                            {{ form.customer.address }}
                         </p>
                     </div>
                     <div>
@@ -164,10 +175,12 @@ const print = () => {
                     </div>
                 </div>
             </div>
-            <div class="card__footer">
-                <div></div>
-                <div>
-                    <a class="btn btn-secondary"> Save </a>
+            <div class="no-print">
+                <div class="card__footer">
+                    <div></div>
+                    <div>
+                        <!-- <a class="btn btn-secondary"> Save </a> -->
+                    </div>
                 </div>
             </div>
         </div>

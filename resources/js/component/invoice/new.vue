@@ -9,7 +9,9 @@ let customer_id = ref([]);
 let item = ref([]);
 let listCart = ref([]);
 const showModal = ref(false);
+const showCustomerModal = ref(false);
 const hideModal = ref(true);
+const hideCustomerModal = ref(true);
 let allproducts = ref([]);
 
 onMounted(async () => {
@@ -46,9 +48,16 @@ const addCart = (item) => {
 const openModal = () => {
     showModal.value = hideModal.value;
 };
+const openCustomerModal = () => {
+    showCustomerModal.value = hideCustomerModal.value;
+};
 
 const closeModal = () => {
     showModal.value = !hideModal.value;
+};
+
+const closeCustomerModal = () => {
+    showCustomerModal.value = !hideCustomerModal.value;
 };
 
 const allProducts = async () => {
@@ -98,6 +107,27 @@ const onSave = () => {
     listCart.value = [];
     router.push("/");
 };
+
+const createNewCustomer = async () => {
+    const formData = new FormData();
+    formData.append("first_name", form.value.first_name);
+    formData.append("last_name", form.value.last_name);
+    formData.append("email", form.value.email);
+    formData.append("address", form.value.address);
+    formData.append("phone", form.value.phone);
+
+    try {
+        console.log("form", formData);
+        const response = await axios.post("/api/add_customer", formData);
+        console.log("Response:", response);
+
+        // Only navigate if the request is successful
+        closeCustomerModal();
+        Customers();
+    } catch (error) {
+        console.error("Error adding customer:", error);
+    }
+};
 </script>
 <template>
     <div class="container" style="margin-top: 0px">
@@ -130,6 +160,14 @@ const onSave = () => {
                                     {{ customer.first_name }}
                                 </option>
                             </select>
+                            <button
+                                type="button"
+                                class="btn btn-primary"
+                                data-toggle="modal"
+                                @click="openCustomerModal()"
+                            >
+                                Add new customer
+                            </button>
                         </div>
                         <div>
                             <p class="my-1">Date</p>
@@ -315,7 +353,110 @@ const onSave = () => {
                 >
                     Cancel
                 </button>
-                <button class="btn btn-light btn__close--modal">Save</button>
+                <!-- <button class="btn btn-light btn__close--modal">Save</button> -->
+            </div>
+        </div>
+    </div>
+    <div class="modal main__modal" :class="{ show: showCustomerModal }">
+        <div class="modal__content">
+            <span
+                class="modal__close btn__close--modal"
+                @click="closeCustomerModal()"
+                >×</span
+            >
+            <h3 class="modal__title">Add Customer</h3>
+            <hr />
+            <br />
+            <div
+                class="modal__items"
+                style="display: flex; flex-direction: column"
+            >
+                <div class="row form-row">
+                    <div class="col-4">
+                        <label for="" class="form-label">First name</label>
+                    </div>
+                    <div class="col-8">
+                        <input
+                            type="text"
+                            class="form-control"
+                            id=""
+                            v-model="form.first_name"
+                            required
+                        />
+                    </div>
+                </div>
+                <div class="row form-row">
+                    <div class="col-4">
+                        <label for="" class="form-label">Last name</label>
+                    </div>
+                    <div class="col-8">
+                        <input
+                            type="text"
+                            class="form-control"
+                            id=""
+                            v-model="form.last_name"
+                            required
+                        />
+                    </div>
+                </div>
+                <div class="row form-row">
+                    <div class="col-4">
+                        <label for="" class="form-label">Email</label>
+                    </div>
+                    <div class="col-8">
+                        <input
+                            type="email"
+                            class="form-control"
+                            id=""
+                            v-model="form.email"
+                            required
+                        />
+                    </div>
+                </div>
+                <div class="row form-row">
+                    <div class="col-4">
+                        <label for="" class="form-label">Address</label>
+                    </div>
+                    <div class="col-8">
+                        <input
+                            type="text"
+                            class="form-control"
+                            id=""
+                            v-model="form.address"
+                            required
+                        />
+                    </div>
+                </div>
+                <div class="row form-row">
+                    <div class="col-4">
+                        <label for="" class="form-label">Contact No</label>
+                    </div>
+                    <div class="col-8">
+                        <input
+                            type="number"
+                            class="form-control"
+                            id=""
+                            v-model="form.phone"
+                            required
+                        />
+                    </div>
+                </div>
+            </div>
+            <br />
+            <hr />
+            <div class="model__footer">
+                <button
+                    class="btn btn-light mr-2 btn__close--modal"
+                    @click="closeCustomerModal()"
+                >
+                    Cancel
+                </button>
+                <button
+                    class="btn btn-light btn__close--modal"
+                    @click="createNewCustomer()"
+                >
+                    Save
+                </button>
             </div>
         </div>
     </div>
