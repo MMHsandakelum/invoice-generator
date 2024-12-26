@@ -130,7 +130,7 @@ const createNewCustomer = async () => {
 };
 </script>
 <template>
-    <div class="container" style="margin-top: 0px">
+    <div style="margin-top: 0px; background-color: gray">
         <div class="container" style="padding: 0px; margin-top: 0px">
             <div class="invoices">
                 <div class="card__header">
@@ -294,7 +294,7 @@ const createNewCustomer = async () => {
                     <div>
                         <button
                             type="submit"
-                            class="btn btn-secondary"
+                            class="btn btn-primary"
                             @click="onSave()"
                         >
                             Save

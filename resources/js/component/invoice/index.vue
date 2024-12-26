@@ -37,7 +37,7 @@ const showInvoice = (id) => {
 };
 </script>
 <template>
-    <div class="container">
+    <div style="background-color: gray">
         <div class="container">
             <div class="invoices">
                 <div class="card__header">
@@ -45,9 +45,9 @@ const showInvoice = (id) => {
                         <h2 class="invoice__title">Invoices</h2>
                     </div>
                     <div>
-                        <a class="btn btn-secondary" @click="newInvoice">
+                        <button class="btn btn-primary" @click="newInvoice()">
                             New Invoice
-                        </a>
+                        </button>
                     </div>
                 </div>
 
