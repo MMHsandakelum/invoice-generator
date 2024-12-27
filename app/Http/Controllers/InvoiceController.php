@@ -12,7 +12,7 @@ class InvoiceController extends Controller
     public function get_all_invoice()
     {
         $invoices = Invoice::with('customer')->orderBy('id', 'DESC')->get();
-
+        dd("success");
         return response()->json([
             'invoices' => $invoices
         ], 200);
