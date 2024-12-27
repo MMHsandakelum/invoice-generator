@@ -326,7 +326,7 @@ const createNewCustomer = async () => {
                             padding-bottom: 5px;
                         "
                     >
-                        <p>{{ i + 1 }}</p>
+                        <p style="margin-bottom: 0px">{{ i + 1 }}</p>
                         <a href="#"
                             >{{ product.item_code }}{{ product.name }}</a
                         >
