@@ -31,3 +31,5 @@ Route::get('/add_new_product', [ProductController::class, 'add_new_product']);
 Route::post('/add_product', [ProductController::class, 'add_product']);
 Route::post('/add_invoice', [InvoiceController::class, 'add_invoice']);
 Route::get('/show_invoice/{id}', [InvoiceController::class, 'show_invoice']);
+Route::get('/get_edit_data/{id}', [InvoiceController::class, 'get_edit_data']);
+Route::post('/update_invoice', [InvoiceController::class, 'update_invoice']);

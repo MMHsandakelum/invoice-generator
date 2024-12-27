@@ -1,6 +1,7 @@
 <script setup>
 import axios from "axios";
 import { onMounted, ref } from "vue";
+import router from "../../router";
 
 let form = ref({ id: "" });
 
@@ -19,6 +20,10 @@ const showInvoice = async () => {
     let response = await axios.get("/api/show_invoice/" + props.id);
     console.log("form", response);
     form.value = response.data.invoices;
+};
+
+const editInvoice = () => {
+    router.push("/invoice/edit/" + props.id);
 };
 
 const print = () => {
@@ -55,7 +60,10 @@ const print = () => {
                         </li>
                         <li>
                             <!-- Select Btn Option -->
-                            <button class="selectBtnFlat btn btn-success">
+                            <button
+                                class="selectBtnFlat btn btn-success"
+                                @click="editInvoice()"
+                            >
                                 <i class="fas fa-reply"></i>
                                 Edit
                             </button>
@@ -131,7 +139,7 @@ const print = () => {
                         v-for="(item, i) in form.invoice_item"
                         :key="item.id"
                     >
-                        <p>{{ item.id }}</p>
+                        <p>#{{ i + 1 }}</p>
                         <p>
                             {{ item.product.item_code }} /
                             {{ item.product.name }}
