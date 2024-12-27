@@ -9,21 +9,23 @@ use Illuminate\Http\Request;
 
 class InvoiceController extends Controller
 {
-    public function get_all_invoice(){
+    public function get_all_invoice()
+    {
         $invoices = Invoice::with('customer')->orderBy('id', 'DESC')->get();
-        <dd></dd>
+        dd("success");
         return response()->json([
             'invoices' => $invoices
         ], 200);
     }
-    
-    public function search_invoice(Request $request){
+
+    public function search_invoice(Request $request)
+    {
         $search = $request->s;
 
-        if($search != null){
+        if ($search != null) {
             $invoices = Invoice::with('customer')
-            ->where('id', 'LIKE', "%$search%")
-            ->get();
+                ->where('id', 'LIKE', "%$search%")
+                ->get();
 
             return response()->json([
                 'invoices' => $invoices
@@ -31,24 +33,24 @@ class InvoiceController extends Controller
         } else {
             return $this->get_all_invoice();
         }
-       
     }
 
-    public function new_invoice(Request $request){
+    public function new_invoice(Request $request)
+    {
 
         $counter = Counter::where('key', 'invoice')->first();
 
         $invoice = Invoice::orderBy('id', 'DESC')->first();
 
-        if($invoice){
+        if ($invoice) {
             $invoice = $invoice->id;
             $counters = $counter->value + $invoice;
-        }else {
+        } else {
             $counters = $counter->value;
         }
 
         $formData = [
-            'number' => $counter->prefix.$counters,
+            'number' => $counter->prefix . $counters,
             'customer_id' => null,
             'customer' => null,
             'date' => date('Y-m-d'),
@@ -68,7 +70,8 @@ class InvoiceController extends Controller
         // return "success";
     }
 
-    public function add_invoice(Request $request){
+    public function add_invoice(Request $request)
+    {
 
         $invoiceitems = $request->invoice_item;
 
@@ -84,7 +87,7 @@ class InvoiceController extends Controller
 
         $invoice = Invoice::create($invoicedata);
 
-        foreach( json_decode($invoiceitems) as $item){
+        foreach (json_decode($invoiceitems) as $item) {
             $itemdata['product_id'] = $item->id;
             $itemdata['invoice_id'] = $invoice->id;
             $itemdata['quantity'] = $item->quantity;
@@ -96,10 +99,10 @@ class InvoiceController extends Controller
         return response()->json([
             "message" => "successfully added"
         ], 200);
-
     }
 
-    public function show_invoice($id){
+    public function show_invoice($id)
+    {
         $invoices = Invoice::with('customer', 'invoice_item.product')->find($id);
 
         return response()->json([
@@ -107,7 +110,8 @@ class InvoiceController extends Controller
         ]);
     }
 
-    public function get_edit_data($id){
+    public function get_edit_data($id)
+    {
 
         $data = Invoice::with('customer', 'invoice_item.product')->find($id);
 
@@ -130,7 +134,8 @@ class InvoiceController extends Controller
         ], 200);
     }
 
-    public function update_invoice(Request $request){
+    public function update_invoice(Request $request)
+    {
         $invoiceitems = $request->invoice_item;
 
         $invoicedata['sub_total'] = $request->sub_total;
@@ -145,13 +150,13 @@ class InvoiceController extends Controller
 
         $invoice = Invoice::where('id', $request->invoice_id)->first()->update($invoicedata);
 
-        $old_invoice_items = InvoiceItem::where('invoice_id',$request->invoice_id)->get();
-        foreach($old_invoice_items as $olditem){
+        $old_invoice_items = InvoiceItem::where('invoice_id', $request->invoice_id)->get();
+        foreach ($old_invoice_items as $olditem) {
             $olditem->delete();
         }
 
-        foreach( json_decode($invoiceitems) as $item){
-            
+        foreach (json_decode($invoiceitems) as $item) {
+
             $itemdata['product_id'] = $item->id;
             $itemdata['invoice_id'] = $request->invoice_id;
             $itemdata['quantity'] = $item->quantity;
